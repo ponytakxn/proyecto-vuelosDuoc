@@ -19,6 +19,7 @@ for i in range(9):
         else:
             listaAsientos[i][j] = n
             n += 1
+copiaAsientos = listaAsientos.copy()
 
 print("-"*30)
 print("Bienvenide a Vuelos Duoc")
@@ -51,7 +52,8 @@ while initFlag == True:
             m+=1
             listaPasajeros=np.vstack([listaPasajeros,[datos]])
         else:
-            break
+            print("Regresando al menú principal")
+            print("")
     
     elif opMenu==2:
         datos=fn.comprarAsiento(listaAsientos)
@@ -96,7 +98,22 @@ while initFlag == True:
                 print("Regresando al menú principal.")
                 print("")
     
-    
+    elif opMenu == 4:
+        rutAnul=int(input("Ingrese rut del pasajero de la reserva a anular sin puntos ni guión. Si termina en K reemplazar por un 0: "))
+        asientoAnul=int(input("Ingrese el asiento del pasajero de la reserva a anular: "))
+        for h in range(m):
+            if listaPasajeros[h][1]==rutAnul and listaPasajeros[h][4]==asientoAnul:
+                print("Pasajero validado.")
+                opAnul=input(f"¿Segure desea anular la reserva a nombre de {listaPasajeros[h][0]}? (s/n): ")
+                while opAnul != 's' and opAnul != 'n':
+                    opAnul=input("Opción ingresada no válida. Vuelva a intentarlo: ")
+                if opAnul == 's':
+                    anular=np.where(copiaAsientos==listaPasajeros[h][4])
+                    listaAsientos[anular]=listaPasajeros[h][4]
+                    listaPasajeros=np.delete(listaPasajeros,h,0)
+                    break
+                else:
+                    pass
 
     else:
         initFlag==False
